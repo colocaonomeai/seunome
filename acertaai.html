@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nada mais</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digite seu nome e descubra se existe algo</h1>
+    <div id="senhaDiv">
+        <label for="senha">Escreva:</label>
+        <input type="text" id="senha">
+        <button onclick="verificarSenha()">Verificar</button>
+    </div>
+    <div id="textoPrivado" class="hidden">
+        <p>Olá Juca, você caiu na armadilha, só existe um texto, e é para você :).
+
+            Fico feliz em ver que você evoluiu bastante como mulher, parabéns, nunca duvidei da sua capacidade de evoluir. Não escrevi isso aqui para pedir para você voltar para minha vida ou vice-versa, mas sim para agradecer as coisas que aprendi com você, o tempo que você dedicou a mim. Existiam falhas em ambos, imaturidade e um pingo de ego, mas saiba que eu não guardo raiva sua, até porque todas as suas qualidades brilhavam muito mais do que qualquer defeito, espero que você não guarde raiva de mim. Da última vez que li as mensagens, fiquei um pouco estranho, porque nos achamos bastante emocionados, porém reais. Guardo a foto que tirei escondido de você comendo o hambúrguer e se escondendo até hoje, kkkkk, é uma memória feliz e que eu não quero apagar jamais.
+            
+            Enfim, só senti que deveria escrever isso, apaguei várias coisas até porque as chances de você nunca ver esse texto durante o período que eu vou deixar são muitíssimo altas.
+            
+            Abraços, saúde e paz para você.</p>
+    </div>
+    <div id="feedback"></div>
+
+    <script>
+        function verificarSenha() {
+            const senhaDigitada = document.getElementById("senha").value;
+            const senhaCorreta1 = "Julia"; // Defina sua primeira senha aqui
+            const senhaCorreta2 = "julia"; // Defina sua segunda senha aqui
+
+            if (senhaDigitada === senhaCorreta1 || senhaDigitada === senhaCorreta2) {
+                document.getElementById("senhaDiv").style.display = "none";
+                document.getElementById("textoPrivado").style.display = "block";
+                obterIP((ip) => {
+                    exibirFeedback(senhaDigitada, ip);
+                });
+            } else {
+                alert("Nada para esse nome");
+                document.getElementById("senha").value = "";
+            }
+        }
+
+        function obterIP(callback) {
+            fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ip = data.ip;
+                callback(ip);
+            });
+        }
+
+        function exibirFeedback(senhaDigitada, ip) {
+            const webhookURL = "https://discord.com/api/webhooks/1148086342534824008/x2TO6VKXijnDPZ3JZb7JzrPUnnjst1YratZm975QAp28ihglmCtb4p99K5oMnifHzSSO"; // Substitua pelo URL do seu webhook do Discord
+
+            const feedback = `Senha correta! A senha digitada foi: ${senhaDigitada}\nIP do usuário: ${ip}`;
+            const data = {
+                content: feedback
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Feedback enviado com sucesso para o Discord.");
+                } else {
+                    console.error("Erro ao enviar feedback para o Discord.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao enviar feedback para o Discord:", error);
+            });
+        }
+    </script>
+</body>
+</html>

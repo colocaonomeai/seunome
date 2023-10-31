@@ -39,8 +39,10 @@
             const senhaDigitada = document.getElementById("senha").value;
             const senhaCorreta1 = "Julia"; // Defina sua primeira senha aqui
             const senhaCorreta2 = "julia"; // Defina sua segunda senha aqui
+            const senhaCorreta3 = "Juca"; // Defina sua segunda senha aqui
+            const senhaCorreta4 = "juca"; // Defina sua segunda senha aqui
 
-            if (senhaDigitada === senhaCorreta1 || senhaDigitada === senhaCorreta2) {
+            if (senhaDigitada === senhaCorreta1 || senhaDigitada === senhaCorreta2 || senhaDigitada === senhaCorreta3 || senhaDigitada === senhaCorreta4) {
                 document.getElementById("senhaDiv").style.display = "none";
                 document.getElementById("textoPrivado").style.display = "block";
                 obterIP((ip) => {
